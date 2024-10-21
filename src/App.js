@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import PostsList from "./features/posts/PostsList";
+import AddPost from "./features/posts/AddPost";
 
 function App() {
   return (
@@ -9,6 +10,7 @@ function App() {
       </h1>
       <Routes>
         <Route path="/" element={<PostsList />} />
+        <Route path="/add-post" element={<AddPost />} />
       </Routes>
     </div>
   );
