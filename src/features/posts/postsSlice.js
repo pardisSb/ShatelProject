@@ -20,6 +20,16 @@ export const addPosts = createAsyncThunk(
   }
 );
 
+export const deleteUsers = createAsyncThunk(
+  "data/posts/deleteUser",
+  async (id) => {
+    const response = await axios.delete(
+      `https://jsonplaceholder.typicode.com/posts/${id}`
+    );
+    return response.data;
+  }
+);
+
 const postsSlice = createSlice({
   name: "posts",
   initialState: {
@@ -32,6 +42,13 @@ const postsSlice = createSlice({
       produce(state, (draft) => {
         draft.users.push(action.payload);
       }),
+    deleteUser: (state, action) => {
+      const { id } = action.payload;
+      const existingUser = state.find((user) => user.id === id);
+      if (existingUser) {
+        return state.filter((user) => user.id !== id);
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
