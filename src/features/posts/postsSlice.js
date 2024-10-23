@@ -20,11 +20,22 @@ export const addPosts = createAsyncThunk(
   }
 );
 
-export const deleteUsers = createAsyncThunk(
-  "data/posts/deleteUser",
+export const deletePosts = createAsyncThunk(
+  "data/posts/deletePost",
   async (id) => {
     const response = await axios.delete(
       `https://jsonplaceholder.typicode.com/posts/${id}`
+    );
+    return response.data;
+  }
+);
+
+export const editPosts = createAsyncThunk(
+  "data/posts/editPost",
+  async (params) => {
+    console.log(params, "params");
+    const response = await axios.put(
+      `https://jsonplaceholder.typicode.com/posts/${params.id}`
     );
     return response.data;
   }
@@ -34,21 +45,12 @@ const postsSlice = createSlice({
   name: "posts",
   initialState: {
     posts: [],
-    status: "idle",
-    error: null,
   },
   reducers: {
-    addUser: (state, action) =>
+    addPost: (state, action) =>
       produce(state, (draft) => {
-        draft.users.push(action.payload);
+        draft.Posts.push(action.payload);
       }),
-    deleteUser: (state, action) => {
-      const { id } = action.payload;
-      const existingUser = state.find((user) => user.id === id);
-      if (existingUser) {
-        return state.filter((user) => user.id !== id);
-      }
-    },
   },
   extraReducers: (builder) => {
     builder
@@ -66,5 +68,5 @@ const postsSlice = createSlice({
   },
 });
 
-export const { addUser } = postsSlice.actions;
+export const { addPost, deletePost, editPost } = postsSlice.actions;
 export default postsSlice.reducer;
